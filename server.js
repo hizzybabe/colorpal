@@ -1,26 +1,3 @@
-const express = require('express');
-const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-require('dotenv').config();
-
-const app = express();
-const port = process.env.PORT || 3000;
-
-// Configure Gemini AI
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
-app.use(express.json());
-app.use(express.static('public'));
-
-app.use((req, res, next) => {
-  console.log(`Received request: ${req.method} ${req.url}`);
-  next();
-});
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.post('/generate-palette', async (req, res) => {
   try {
     const { prompt } = req.body;
@@ -59,16 +36,9 @@ app.post('/generate-palette', async (req, res) => {
 
     console.log('Parsed colors:', colors);
 
-    // Create an array of objects with color and hex code
-    const colorData = colors.map(color => ({ color, hexCode: color }));
-
-    res.json(colorData);
+    res.json(colors);
   } catch (error) {
     console.error('Error generating palette:', error);
     res.status(500).json({ error: 'Failed to generate palette', details: error.message });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
 });

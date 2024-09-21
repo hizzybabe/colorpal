@@ -22,17 +22,8 @@ async function generatePalette() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const rawResponse = await response.text();
-        console.log('Raw response:', rawResponse);
-        
-        let colors;
-        try {
-            colors = JSON.parse(rawResponse);
-        } catch (e) {
-            console.error('Error parsing JSON:', e);
-            colors = rawResponse.split(',').map(color => color.trim());
-        }
-        console.log('Processed colors:', colors);
+        const colors = await response.json();
+        console.log('Received colors:', colors);
         
         displayPalette(colors);
     } catch (error) {
@@ -40,7 +31,6 @@ async function generatePalette() {
         alert(`An error occurred while generating the palette: ${error.message}`);
     }
 }
-
 
 function displayPalette(colors) {
     const paletteDiv = document.getElementById('palette');
@@ -52,17 +42,16 @@ function displayPalette(colors) {
         
         const colorBox = document.createElement('div');
         colorBox.className = 'color-box';
-        const colorValue = typeof color === 'object' ? color.hex : color;
-        colorBox.style.backgroundColor = colorValue;
+        colorBox.style.backgroundColor = color;
         
         const colorCode = document.createElement('div');
         colorCode.className = 'color-code';
-        colorCode.textContent = colorValue;
+        colorCode.textContent = color;
         
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         copyButton.textContent = 'Copy';
-        copyButton.onclick = () => copyToClipboard(colorValue);
+        copyButton.onclick = () => copyToClipboard(color);
         
         colorItem.appendChild(colorBox);
         colorItem.appendChild(colorCode);
