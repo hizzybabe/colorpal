@@ -1,3 +1,20 @@
+:root {  
+    --bg-color: #f0f0f0;  
+    --container-bg: white;  
+    --text-color: black;  
+    --button-bg: #e0e0e0;  
+    --button-hover: #d0d0d0;  
+}  
+
+[data-theme="dark"] {  
+    --bg-color: #333;  
+    --container-bg: #444;  
+    --text-color: #f0f0f0;  
+    --button-bg: #555;  
+    --button-hover: #666;  
+}  
+
+
 body {
     font-family: Arial, sans-serif;
     max-width: 800px;
