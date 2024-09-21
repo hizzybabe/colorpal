@@ -60,13 +60,14 @@ button:hover {
     margin: 10px;  
     text-align: center;  
 }  
-.color-box {  
-    width: 100px;  
-    height: 100px;  
-    margin-bottom: 5px;  
-    border: 1px solid #ddd;  
-    border-radius: 5px;  
-}  
+.color-box {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: block; /* Add this line */
+}
 .color-code {  
     font-size: 14px;  
 }  

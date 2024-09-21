@@ -23,6 +23,7 @@ async function generatePalette() {
         }
 
         const colors = await response.json();
+        console.log('Received colors:', colors); // Add this line for debugging
         displayPalette(colors);
     } catch (error) {
         console.error('Detailed Error:', error);
@@ -31,32 +32,32 @@ async function generatePalette() {
 }
 
 
-function displayPalette(colors) {  
-    const paletteDiv = document.getElementById('palette');  
-    paletteDiv.innerHTML = '';  
-    colors.forEach(color => {  
-        const colorItem = document.createElement('div');  
-        colorItem.className = 'color-item';  
+function displayPalette(colors) {
+    const paletteDiv = document.getElementById('palette');
+    paletteDiv.innerHTML = '';
+    colors.forEach(color => {
+        const colorItem = document.createElement('div');
+        colorItem.className = 'color-item';
         
-        const colorBox = document.createElement('div');  
-        colorBox.className = 'color-box';  
-        colorBox.style.backgroundColor = color;  
+        const colorBox = document.createElement('div');
+        colorBox.className = 'color-box';
+        colorBox.style.backgroundColor = color.hex; // Use color.hex instead of color
         
-        const colorCode = document.createElement('div');  
-        colorCode.className = 'color-code';  
-        colorCode.textContent = color;  
+        const colorCode = document.createElement('div');
+        colorCode.className = 'color-code';
+        colorCode.textContent = color.hex; // Use color.hex instead of color
         
-        const copyButton = document.createElement('button');  
-        copyButton.className = 'copy-button';  
-        copyButton.textContent = 'Copy';  
-        copyButton.onclick = () => copyToClipboard(color);  
+        const copyButton = document.createElement('button');
+        copyButton.className = 'copy-button';
+        copyButton.textContent = 'Copy';
+        copyButton.onclick = () => copyToClipboard(color.hex); // Use color.hex
         
-        colorItem.appendChild(colorBox);  
-        colorItem.appendChild(colorCode);  
-        colorItem.appendChild(copyButton);  
-        paletteDiv.appendChild(colorItem);  
-    });  
-}  
+        colorItem.appendChild(colorBox);
+        colorItem.appendChild(colorCode);
+        colorItem.appendChild(copyButton);
+        paletteDiv.appendChild(colorItem);
+    });
+}
 
 function copyToClipboard(text) {  
     navigator.clipboard.writeText(text).then(() => {  
