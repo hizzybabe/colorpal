@@ -75,6 +75,7 @@ button:hover {
     padding: 2px 5px;
     border-radius: 3px;
     margin-top: 5px;
+    color: #333;
 }
 
 .copy-button {  

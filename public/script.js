@@ -25,8 +25,14 @@ async function generatePalette() {
         const rawResponse = await response.text();
         console.log('Raw response:', rawResponse);
         
-        const colors = JSON.parse(rawResponse);
-        console.log('Parsed colors:', colors);
+        let colors;
+        try {
+            colors = JSON.parse(rawResponse);
+        } catch (e) {
+            console.error('Error parsing JSON:', e);
+            colors = rawResponse.split(',').map(color => color.trim());
+        }
+        console.log('Processed colors:', colors);
         
         displayPalette(colors);
     } catch (error) {
@@ -40,22 +46,23 @@ function displayPalette(colors) {
     const paletteDiv = document.getElementById('palette');
     paletteDiv.innerHTML = '';
     colors.forEach(color => {
-        console.log('Processing color:', color); // Add this line for debugging
+        console.log('Processing color:', color);
         const colorItem = document.createElement('div');
         colorItem.className = 'color-item';
         
         const colorBox = document.createElement('div');
         colorBox.className = 'color-box';
-        colorBox.style.backgroundColor = color.hex || color; // Fallback to color if hex is not present
+        const colorValue = typeof color === 'object' ? color.hex : color;
+        colorBox.style.backgroundColor = colorValue;
         
         const colorCode = document.createElement('div');
         colorCode.className = 'color-code';
-        colorCode.textContent = color.hex || color; // Fallback to color if hex is not present
+        colorCode.textContent = colorValue;
         
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         copyButton.textContent = 'Copy';
-        copyButton.onclick = () => copyToClipboard(color.hex || color); // Fallback to color if hex is not present
+        copyButton.onclick = () => copyToClipboard(colorValue);
         
         colorItem.appendChild(colorBox);
         colorItem.appendChild(colorCode);
