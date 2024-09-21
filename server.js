@@ -12,6 +12,11 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 app.use(express.json());
 app.use(express.static('public'));
 
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.url}`);
+  next();
+});
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -20,6 +25,10 @@ app.post('/generate-palette', async (req, res) => {
   try {
     const { prompt } = req.body;
     console.log('Received prompt:', prompt);
+
+    if (!prompt) {
+      throw new Error('No prompt provided');
+    }
 
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
@@ -35,7 +44,19 @@ app.post('/generate-palette', async (req, res) => {
     const text = response.text();
     console.log('Raw response:', text);
 
-    const colors = JSON.parse(text);
+    // Try to parse the response as JSON, if it fails, attempt to extract color codes
+    let colors;
+    try {
+      colors = JSON.parse(text);
+    } catch (parseError) {
+      console.log('Failed to parse response as JSON, attempting to extract color codes');
+      colors = text.match(/#[0-9A-Fa-f]{6}/g);
+    }
+
+    if (!Array.isArray(colors) || colors.length !== 5) {
+      throw new Error('Invalid color data received from AI');
+    }
+
     console.log('Parsed colors:', colors);
 
     // Create an array of objects with color and hex code
@@ -50,10 +71,4 @@ app.post('/generate-palette', async (req, res) => {
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-});
-
-
-app.use((req, res, next) => {
-  console.log(`Received request: ${req.method} ${req.url}`);
-  next();
 });
