@@ -1,39 +1,60 @@
-document.getElementById('paletteForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const prompt = document.getElementById('prompt').value;
-    try {
-        const response = await fetch('/generate-palette', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const colorData = await response.json();
-        displayPalette(colorData);
-    } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred while generating the palette. Please try again.');
-    }
-});
+async function generatePalette() {  
+    const prompt = document.getElementById('prompt').value;  
+    try {  
+        const response = await fetch('/generate-palette', {  
+            method: 'POST',  
+            headers: {  
+                'Content-Type': 'application/json'  
+            },  
+            body: JSON.stringify({ prompt })  
+        });  
 
-function displayPalette(colorData) {
-    const paletteDiv = document.getElementById('palette');
-    paletteDiv.innerHTML = '';
-    colorData.forEach(({ color, hexCode }) => {
-        const colorBox = document.createElement('div');
-        colorBox.className = 'color-box';
-        colorBox.style.backgroundColor = color;
+        if (!response.ok) {  
+            throw new Error(`HTTP error! status: ${response.status}`);  
+        }  
+
+        const colors = await response.json();  
+        displayPalette(colors);  
+    } catch (error) {  
+        console.error('Detailed Error:', error);  
+        alert(`An error occurred while generating the palette: ${error.message}`);  
+    }  
+}  
+
+function displayPalette(colors) {  
+    const paletteDiv = document.getElementById('palette');  
+    paletteDiv.innerHTML = '';  
+    colors.forEach(color => {  
+        const colorItem = document.createElement('div');  
+        colorItem.className = 'color-item';  
         
-        const hexText = document.createElement('p');
-        hexText.textContent = hexCode;
-        hexText.className = 'hex-code';
+        const colorBox = document.createElement('div');  
+        colorBox.className = 'color-box';  
+        colorBox.style.backgroundColor = color;  
         
-        colorBox.appendChild(hexText);
-        paletteDiv.appendChild(colorBox);
-    });
-}
+        const colorCode = document.createElement('div');  
+        colorCode.className = 'color-code';  
+        colorCode.textContent = color;  
+        
+        const copyButton = document.createElement('button');  
+        copyButton.className = 'copy-button';  
+        copyButton.textContent = 'Copy';  
+        copyButton.onclick = () => copyToClipboard(color);  
+        
+        colorItem.appendChild(colorBox);  
+        colorItem.appendChild(colorCode);  
+        colorItem.appendChild(copyButton);  
+        paletteDiv.appendChild(colorItem);  
+    });  
+}  
+
+function copyToClipboard(text) {  
+    navigator.clipboard.writeText(text).then(() => {  
+        alert('Color code copied to clipboard!');  
+    }, (err) => {  
+        console.error('Could not copy text: ', err);  
+    });  
+}  
 
 // Theme toggle functionality  
 const themeToggle = document.getElementById('theme-toggle');  
