@@ -14,6 +14,12 @@
     --button-hover: #666;
 }
 
+html, body {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
 body {  
     font-family: Arial, sans-serif;  
     display: flex;  

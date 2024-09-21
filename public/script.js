@@ -1,25 +1,35 @@
-async function generatePalette() {  
-    const prompt = document.getElementById('prompt').value;  
-    try {  
-        const response = await fetch('/generate-palette', {  
-            method: 'POST',  
-            headers: {  
-                'Content-Type': 'application/json'  
-            },  
-            body: JSON.stringify({ prompt })  
-        });  
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('paletteForm');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await generatePalette();
+    });
+});
 
-        if (!response.ok) {  
-            throw new Error(`HTTP error! status: ${response.status}`);  
-        }  
 
-        const colors = await response.json();  
-        displayPalette(colors);  
-    } catch (error) {  
-        console.error('Detailed Error:', error);  
-        alert(`An error occurred while generating the palette: ${error.message}`);  
-    }  
-}  
+async function generatePalette() {
+    const prompt = document.getElementById('prompt').value;
+    try {
+        const response = await fetch('/generate-palette', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ prompt })
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const colors = await response.json();
+        displayPalette(colors);
+    } catch (error) {
+        console.error('Detailed Error:', error);
+        alert(`An error occurred while generating the palette: ${error.message}`);
+    }
+}
+
 
 function displayPalette(colors) {  
     const paletteDiv = document.getElementById('palette');  
