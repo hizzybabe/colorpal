@@ -14,52 +14,70 @@
     --button-hover: #666;  
 }  
 
-
-body {
-    font-family: Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-#palette {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.color-box {
-    width: 100px;
-    height: 120px;
-    border: 1px solid #000;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    padding-bottom: 10px;
-}
-
-.hex-code {
-    background-color: rgba(255, 255, 255, 0.7);
-    padding: 2px 5px;
-    border-radius: 3px;
-    font-size: 14px;
-    margin: 0;
-}
-
-textarea {
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
+body {  
+    font-family: Arial, sans-serif;  
+    display: flex;  
+    justify-content: center;  
+    align-items: center;  
+    height: 100vh;  
+    margin: 0;  
+    background-color: var(--bg-color);  
+    color: var(--text-color);  
+    transition: background-color 0.3s, color 0.3s;  
+}  
+.container {  
+    text-align: center;  
+    background-color: var(--container-bg);  
+    padding: 2rem;  
+    border-radius: 10px;  
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);  
+}  
+input, button {  
+    margin: 10px 0;  
+    padding: 10px;  
+    font-size: 16px;  
+    background-color: var(--button-bg);  
+    color: var(--text-color);  
+    border: none;  
+    border-radius: 5px;  
+}  
+button:hover {  
+    background-color: var(--button-hover);  
+}  
+#palette {  
+    display: flex;  
+    justify-content: center;  
+    flex-wrap: wrap;  
+    margin-top: 20px;  
+}  
+.color-item {  
+    margin: 10px;  
+    text-align: center;  
+}  
+.color-box {  
+    width: 100px;  
+    height: 100px;  
+    margin-bottom: 5px;  
+    border: 1px solid #ddd;  
+    border-radius: 5px;  
+}  
+.color-code {  
+    font-size: 14px;  
+}  
+.copy-button {  
+    background-color: var(--button-bg);  
+    border: none;  
+    padding: 5px 10px;  
+    margin-top: 5px;  
+    cursor: pointer;  
+    border-radius: 3px;  
+}  
+.copy-button:hover {  
+    background-color: var(--button-hover);  
+}  
+#theme-toggle {  
+    position: absolute;  
+    top: 20px;  
+    right: 20px;  
+    cursor: pointer;  
+}  
