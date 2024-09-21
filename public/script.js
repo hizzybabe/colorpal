@@ -79,6 +79,7 @@ if (savedTheme) {
 }
 
 function applyTheme(theme) {
+    console.log('Applying theme:', theme);
     htmlElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-}
+  }
