@@ -66,11 +66,17 @@ button:hover {
     margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    display: block; /* Add this line */
+    display: block;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
-.color-code {  
-    font-size: 14px;  
-}  
+
+.color-code {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 2px 5px;
+    border-radius: 3px;
+    margin-top: 5px;
+}
+
 .copy-button {  
     background-color: var(--button-bg);  
     border: none;  

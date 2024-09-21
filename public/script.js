@@ -22,8 +22,12 @@ async function generatePalette() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const colors = await response.json();
-        console.log('Received colors:', colors); // Add this line for debugging
+        const rawResponse = await response.text();
+        console.log('Raw response:', rawResponse);
+        
+        const colors = JSON.parse(rawResponse);
+        console.log('Parsed colors:', colors);
+        
         displayPalette(colors);
     } catch (error) {
         console.error('Detailed Error:', error);
@@ -36,21 +40,22 @@ function displayPalette(colors) {
     const paletteDiv = document.getElementById('palette');
     paletteDiv.innerHTML = '';
     colors.forEach(color => {
+        console.log('Processing color:', color); // Add this line for debugging
         const colorItem = document.createElement('div');
         colorItem.className = 'color-item';
         
         const colorBox = document.createElement('div');
         colorBox.className = 'color-box';
-        colorBox.style.backgroundColor = color.hex; // Use color.hex instead of color
+        colorBox.style.backgroundColor = color.hex || color; // Fallback to color if hex is not present
         
         const colorCode = document.createElement('div');
         colorCode.className = 'color-code';
-        colorCode.textContent = color.hex; // Use color.hex instead of color
+        colorCode.textContent = color.hex || color; // Fallback to color if hex is not present
         
         const copyButton = document.createElement('button');
         copyButton.className = 'copy-button';
         copyButton.textContent = 'Copy';
-        copyButton.onclick = () => copyToClipboard(color.hex); // Use color.hex
+        copyButton.onclick = () => copyToClipboard(color.hex || color); // Fallback to color if hex is not present
         
         colorItem.appendChild(colorBox);
         colorItem.appendChild(colorCode);
